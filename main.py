@@ -5,18 +5,16 @@ from sklearn.metrics import mean_squared_error
 
 df = pd.read_csv('weather_data.csv')
 
-# Convertir fecha a formato numérico
 df['Date_Time'] = pd.to_datetime(df['Date_Time'])
 df['Year'] = df['Date_Time'].dt.year
 df['Month'] = df['Date_Time'].dt.month
 df['Day'] = df['Date_Time'].dt.day
 
-# Guardar el mapeo de localidades a códigos
+
 df['Location'] = df['Location'].astype('category')
 location_map = dict(enumerate(df['Location'].cat.categories))
 location_map_inv = {v: k for k, v in location_map.items()}
 
-# Convertir Location a códigos numéricos
 df['Location'] = df['Location'].cat.codes
 
 X = df[['Location', 'Year', 'Month', 'Day']]
@@ -44,7 +42,6 @@ def predecir_clima(localidad, fecha):
         'Wind_Speed_kmh': round(float(pred[3]), 2)
     }
 
-# Ejemplo de uso (elige una localidad que sí esté en tu CSV)
 resultado = predecir_clima('New York', '2025-06-15')
 print("Predicción del clima:")
 print(f"Temperatura (°C): {resultado['Temperature_C']}")
